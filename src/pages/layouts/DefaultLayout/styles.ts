@@ -5,6 +5,10 @@ export const LayoutContainer = styled.div`
   height: calc(100vh - 8rem);
   margin: 5rem auto;
   padding: 2.5rem;
+  border-radius: 8px;
 
   background-color: ${(props) => props.theme['gray-800']};
+
+  display: flex;
+  flex-direction: column;
 `
