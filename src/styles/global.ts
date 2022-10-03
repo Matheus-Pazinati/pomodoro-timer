@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme['gray-300']};
   }
 
-  border-style, input-security, textarea, button {
+  input, textarea, button, p, form {
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     font-weight: 400;
