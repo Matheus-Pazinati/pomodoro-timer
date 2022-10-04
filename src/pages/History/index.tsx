@@ -1,8 +1,10 @@
+import { HistoryContainer, HistoryList, ProjectStatus } from './styles'
+
 export function History() {
   return (
-    <div>
+    <HistoryContainer>
       <h1>Meu histórico</h1>
-      <div>
+      <HistoryList>
         <table>
           <thead>
             <tr>
@@ -17,29 +19,37 @@ export function History() {
               <td>Exemplo de tarefa</td>
               <td>30 minutos</td>
               <td>Há cerca de 20 minutos</td>
-              <td>Concluído</td>
+              <td>
+                <ProjectStatus statusColor="green">Concluído</ProjectStatus>
+              </td>
             </tr>
             <tr>
               <td>Exemplo de tarefa</td>
               <td>30 minutos</td>
               <td>Há cerca de 20 minutos</td>
-              <td>Concluído</td>
+              <td>
+                <ProjectStatus statusColor="green">Concluído</ProjectStatus>
+              </td>
             </tr>
             <tr>
               <td>Exemplo de tarefa</td>
               <td>30 minutos</td>
               <td>Há cerca de 20 minutos</td>
-              <td>Concluído</td>
+              <td>
+                <ProjectStatus statusColor="yellow">Em andamento</ProjectStatus>
+              </td>
             </tr>
             <tr>
               <td>Exemplo de tarefa</td>
               <td>30 minutos</td>
               <td>Há cerca de 20 minutos</td>
-              <td>Concluído</td>
+              <td>
+                <ProjectStatus statusColor="red">Interrompido</ProjectStatus>
+              </td>
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
+      </HistoryList>
+    </HistoryContainer>
   )
 }
