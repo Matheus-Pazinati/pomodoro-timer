@@ -50,6 +50,10 @@ const FormInputBase = styled.input`
 
 export const ProjectInput = styled(FormInputBase)`
   flex: 1;
+
+  &::-webkit-calendar-picker-indicator {
+    display: none !important;
+  }
 `
 
 export const ProjectMinutes = styled(FormInputBase)`
