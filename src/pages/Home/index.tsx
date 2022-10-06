@@ -11,9 +11,23 @@ import {
 } from './styles'
 
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
+
+const newCycleFormValidationSchema = zod.object({
+  projectName: zod.string().min(1, 'Informe um nome para o projeto'),
+  projectMinutes: zod
+    .number()
+    .min(5, 'Um ciclo deve conter no mínimo 5 minutos')
+    .max(60, 'Um ciclo deve conter no máximo 5 minutos'),
+})
 
 export function Home() {
-  const { register, handleSubmit, watch } = useForm()
+  const { register, handleSubmit, watch, formState } = useForm({
+    resolver: zodResolver(newCycleFormValidationSchema),
+  })
+
+  console.log(formState.errors)
 
   function handleCreateNewCycle(data: any) {
     console.log(data)
