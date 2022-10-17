@@ -59,7 +59,6 @@ export const ProjectInput = styled(FormInputBase)`
 export const ProjectMinutes = styled(FormInputBase)`
   width: 4.5rem;
 `
-
 export const CountdownContainer = styled.div`
   display: flex;
   justify-content: center;

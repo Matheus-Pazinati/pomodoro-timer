@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Play } from 'phosphor-react'
 import {
   FormContainer,
@@ -10,6 +12,8 @@ import {
   StartCountdownButton,
 } from './styles'
 
+import { v4 as uuidv4 } from 'uuid'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
@@ -19,10 +23,16 @@ const newCycleFormValidationSchema = zod.object({
   projectMinutes: zod
     .number()
     .min(5, 'Um ciclo deve conter no mínimo 5 minutos')
-    .max(60, 'Um ciclo deve conter no máximo 5 minutos'),
+    .max(60, 'Um ciclo deve conter no máximo 60 minutos'),
 })
 
 type NewCycleFormSchemaProps = zod.infer<typeof newCycleFormValidationSchema>
+
+interface Cycle {
+  id: string
+  task: string
+  minutes: number
+}
 
 export function Home() {
   const { register, handleSubmit, watch, reset } =
@@ -34,10 +44,27 @@ export function Home() {
       },
     })
 
+  const [cycles, setCycles] = useState<Cycle[]>([])
+
+  const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
+
   function handleCreateNewCycle(data: NewCycleFormSchemaProps) {
-    console.log(data)
+    const newCycle: Cycle = {
+      id: uuidv4(),
+      task: data.projectName,
+      minutes: data.projectMinutes,
+    }
+
+    setCycles((state) => [...state, newCycle])
+
+    setActiveCycleId(newCycle.id)
+
     reset()
   }
+
+  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
+
+  console.log(activeCycle)
 
   const projectInput = watch('projectName')
 
@@ -69,8 +96,6 @@ export function Home() {
             type="number"
             placeholder="00"
             step={5}
-            min={5}
-            max={60}
             {...register('projectMinutes', { valueAsNumber: true })}
           />
           <span>minutos.</span>
