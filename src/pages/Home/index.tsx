@@ -48,6 +48,8 @@ export function Home() {
 
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
 
+  const [secondsAmountPassed, setSecondsAmountPassed] = useState(0)
+
   function handleCreateNewCycle(data: NewCycleFormSchemaProps) {
     const newCycle: Cycle = {
       id: uuidv4(),
@@ -59,12 +61,26 @@ export function Home() {
 
     setActiveCycleId(newCycle.id)
 
+    setInterval(() => setSecondsAmountPassed((state) => state + 1), 1000)
+
     reset()
   }
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
-  console.log(activeCycle)
+  const totalSecondsOfTaskTime = activeCycle ? activeCycle.minutes * 60 : 0
+
+  const currentSeconds = activeCycle
+    ? totalSecondsOfTaskTime - secondsAmountPassed
+    : 0
+
+  const minutesAmount = Math.floor(currentSeconds / 60)
+
+  const secondsAmount = currentSeconds % 60
+
+  const minutes = String(minutesAmount).padStart(2, '0')
+
+  const seconds = String(secondsAmount).padStart(2, '0')
 
   const projectInput = watch('projectName')
 
@@ -102,11 +118,11 @@ export function Home() {
         </FormContainer>
 
         <CountdownContainer>
-          <span>0</span>
-          <span>0</span>
+          <span>{minutes[0]}</span>
+          <span>{minutes[1]}</span>
           <CountdownSeparator>:</CountdownSeparator>
-          <span>0</span>
-          <span>0</span>
+          <span>{seconds[0]}</span>
+          <span>{seconds[1]}</span>
         </CountdownContainer>
 
         <StartCountdownButton
