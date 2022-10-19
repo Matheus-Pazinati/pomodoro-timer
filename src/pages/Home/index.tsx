@@ -7,10 +7,10 @@ import {
   StyleContainer,
   ProjectInput,
   ProjectMinutes,
-  CountdownContainer,
-  CountdownSeparator,
   StartCountdownButton,
 } from './styles'
+
+import { Countdown } from '../../components/Countdown'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -68,20 +68,6 @@ export function Home() {
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
-  const totalSecondsOfTaskTime = activeCycle ? activeCycle.minutes * 60 : 0
-
-  const currentSeconds = activeCycle
-    ? totalSecondsOfTaskTime - secondsAmountPassed
-    : 0
-
-  const minutesAmount = Math.floor(currentSeconds / 60)
-
-  const secondsAmount = currentSeconds % 60
-
-  const minutes = String(minutesAmount).padStart(2, '0')
-
-  const seconds = String(secondsAmount).padStart(2, '0')
-
   const projectInput = watch('projectName')
 
   const isProjectInputValid = !projectInput
@@ -117,13 +103,10 @@ export function Home() {
           <span>minutos.</span>
         </FormContainer>
 
-        <CountdownContainer>
-          <span>{minutes[0]}</span>
-          <span>{minutes[1]}</span>
-          <CountdownSeparator>:</CountdownSeparator>
-          <span>{seconds[0]}</span>
-          <span>{seconds[1]}</span>
-        </CountdownContainer>
+        <Countdown
+          taskMinutes={activeCycle?.minutes}
+          secondsPassed={secondsAmountPassed}
+        />
 
         <StartCountdownButton
           disabled={isProjectInputValid}
