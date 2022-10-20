@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Play } from 'phosphor-react'
 import {
@@ -18,6 +18,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 
+import { differenceInSeconds } from 'date-fns'
+
 const newCycleFormValidationSchema = zod.object({
   projectName: zod.string().min(1, 'Informe um nome para o projeto'),
   projectMinutes: zod
@@ -32,6 +34,7 @@ interface Cycle {
   id: string
   task: string
   minutes: number
+  startDate: Date
 }
 
 export function Home() {
@@ -55,13 +58,12 @@ export function Home() {
       id: uuidv4(),
       task: data.projectName,
       minutes: data.projectMinutes,
+      startDate: new Date(),
     }
 
     setCycles((state) => [...state, newCycle])
 
     setActiveCycleId(newCycle.id)
-
-    setInterval(() => setSecondsAmountPassed((state) => state + 1), 1000)
 
     reset()
   }
@@ -71,6 +73,18 @@ export function Home() {
   const projectInput = watch('projectName')
 
   const isProjectInputValid = !projectInput
+
+  useEffect(() => {
+    if (activeCycle) {
+      setInterval(
+        () =>
+          setSecondsAmountPassed(
+            differenceInSeconds(new Date(), activeCycle.startDate),
+          ),
+        1000,
+      )
+    }
+  }, [activeCycle])
 
   return (
     <HomeContainer>
