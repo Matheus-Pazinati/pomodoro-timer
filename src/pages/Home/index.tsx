@@ -65,6 +65,8 @@ export function Home() {
 
     setActiveCycleId(newCycle.id)
 
+    setSecondsAmountPassed(0)
+
     reset()
   }
 
@@ -75,14 +77,18 @@ export function Home() {
   const isProjectInputValid = !projectInput
 
   useEffect(() => {
+    let interval: number
     if (activeCycle) {
-      setInterval(
+      interval = setInterval(
         () =>
           setSecondsAmountPassed(
             differenceInSeconds(new Date(), activeCycle.startDate),
           ),
         1000,
       )
+    }
+    return () => {
+      clearInterval(interval)
     }
   }, [activeCycle])
 
