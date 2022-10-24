@@ -90,21 +90,38 @@ export function Home() {
 
   const isProjectInputValid = !projectInput
 
+  const totalSeconds = activeCycle ? activeCycle.minutes * 60 : 0
+
   useEffect(() => {
     let interval: number
     if (activeCycle) {
-      interval = setInterval(
-        () =>
-          setSecondsAmountPassed(
-            differenceInSeconds(new Date(), activeCycle.startDate),
-          ),
-        1000,
-      )
+      interval = setInterval(() => {
+        const secondsDifference = differenceInSeconds(
+          new Date(),
+          activeCycle.startDate,
+        )
+        if (secondsDifference >= totalSeconds) {
+          setCycles((state) =>
+            state.map((cycle) => {
+              if (cycle.id === activeCycleId) {
+                return { ...cycle, finishedDate: new Date() }
+              } else {
+                return cycle
+              }
+            }),
+          )
+
+          setSecondsAmountPassed(totalSeconds)
+          clearInterval(interval)
+        } else {
+          setSecondsAmountPassed(secondsDifference)
+        }
+      }, 1000)
     }
     return () => {
       clearInterval(interval)
     }
-  }, [activeCycle])
+  }, [activeCycle, totalSeconds, activeCycleId])
 
   return (
     <HomeContainer>
