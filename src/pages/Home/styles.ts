@@ -59,21 +59,23 @@ export const ProjectInput = styled(FormInputBase)`
 export const ProjectMinutes = styled(FormInputBase)`
   width: 4.5rem;
 `
-
-export const StartCountdownButton = styled.button`
+const BaseCountdownButton = styled.button`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 
-  background-color: ${(props) => props.theme['green-500']};
   color: ${(props) => props.theme['gray-100']};
   font-weight: bold;
   border-radius: 8px;
   border: none;
   padding: 1.25rem 0;
   cursor: pointer;
+`
+
+export const StartCountdownButton = styled(BaseCountdownButton)`
+  background-color: ${(props) => props.theme['green-500']};
 
   &:disabled {
     opacity: 0.7;
@@ -82,5 +84,13 @@ export const StartCountdownButton = styled.button`
 
   &:not(:disabled):hover {
     background-color: ${(props) => props.theme['green-700']};
+  }
+`
+
+export const StopCountdownButton = styled(BaseCountdownButton)`
+  background-color: ${(props) => props.theme['red-500']};
+
+  &:not(:disabled):hover {
+    background-color: ${(props) => props.theme['red-700']};
   }
 `
