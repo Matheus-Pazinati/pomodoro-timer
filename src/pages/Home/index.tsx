@@ -106,6 +106,7 @@ export function Home() {
             type="text"
             placeholder="Dê um nome para o seu projeto"
             list="projectSuggestions"
+            disabled={!!activeCycle}
             {...register('projectName', { required: true })}
           />
           <datalist id="projectSuggestions">
@@ -119,6 +120,7 @@ export function Home() {
             type="number"
             placeholder="00"
             step={5}
+            disabled={!!activeCycle}
             {...register('projectMinutes', { valueAsNumber: true })}
           />
           <span>minutos.</span>
