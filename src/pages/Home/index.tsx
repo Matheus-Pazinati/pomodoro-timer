@@ -11,7 +11,7 @@ import {
   StopCountdownButton,
 } from './styles'
 
-import { Countdown } from '../../components/Countdown'
+import { Countdown } from './components/Countdown'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -37,6 +37,7 @@ interface Cycle {
   minutes: number
   startDate: Date
   interruptedDate?: Date
+  finishedDate?: Date
 }
 
 export function Home() {
