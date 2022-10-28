@@ -1,15 +1,23 @@
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
+import { CyclesContext } from '../..'
 import { CountdownContainer, CountdownSeparator } from './styles'
 
+import { differenceInSeconds } from 'date-fns'
+
 interface CountdownProps {
-  taskMinutes: number | undefined
   secondsPassed: number
 }
 
-export function Countdown({ taskMinutes, secondsPassed }: CountdownProps) {
-  const totalSecondsOfTaskTime = taskMinutes ? taskMinutes * 60 : 0
+export function Countdown({ secondsPassed }: CountdownProps) {
+  const {
+    activeCycle,
+    activeCycleId,
+    markCurrentCycleAsFinished,
+    secondsPassedOnCountdown,
+  } = useContext(CyclesContext)
+  const totalSecondsOfTaskTime = activeCycle ? activeCycle.minutes * 60 : 0
 
-  const currentSeconds = taskMinutes
+  const currentSeconds = activeCycle
     ? totalSecondsOfTaskTime - secondsPassed
     : 0
 
@@ -22,10 +30,38 @@ export function Countdown({ taskMinutes, secondsPassed }: CountdownProps) {
   const seconds = String(secondsAmount).padStart(2, '0')
 
   useEffect(() => {
-    if (taskMinutes) {
+    let interval: number
+    if (activeCycle) {
+      interval = setInterval(() => {
+        const secondsDifference = differenceInSeconds(
+          new Date(),
+          activeCycle.startDate,
+        )
+        if (secondsDifference >= totalSecondsOfTaskTime) {
+          markCurrentCycleAsFinished()
+          secondsPassedOnCountdown(totalSecondsOfTaskTime)
+          clearInterval(interval)
+        } else {
+          secondsPassedOnCountdown(secondsDifference)
+        }
+      }, 1000)
+    }
+    return () => {
+      clearInterval(interval)
+    }
+  }, [
+    activeCycle,
+    totalSecondsOfTaskTime,
+    activeCycleId,
+    markCurrentCycleAsFinished,
+    secondsPassedOnCountdown,
+  ])
+
+  useEffect(() => {
+    if (activeCycle) {
       document.title = `${minutes}:${seconds}`
     }
-  }, [minutes, seconds, taskMinutes])
+  }, [minutes, seconds, activeCycle])
 
   return (
     <CountdownContainer>
