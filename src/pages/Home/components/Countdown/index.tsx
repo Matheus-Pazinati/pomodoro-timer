@@ -4,21 +4,18 @@ import { CountdownContainer, CountdownSeparator } from './styles'
 
 import { differenceInSeconds } from 'date-fns'
 
-interface CountdownProps {
-  secondsPassed: number
-}
-
-export function Countdown({ secondsPassed }: CountdownProps) {
+export function Countdown() {
   const {
     activeCycle,
     activeCycleId,
     markCurrentCycleAsFinished,
     secondsPassedOnCountdown,
+    secondsAmountPassed,
   } = useContext(CyclesContext)
   const totalSecondsOfTaskTime = activeCycle ? activeCycle.minutes * 60 : 0
 
   const currentSeconds = activeCycle
-    ? totalSecondsOfTaskTime - secondsPassed
+    ? totalSecondsOfTaskTime - secondsAmountPassed
     : 0
 
   const minutesAmount = Math.floor(currentSeconds / 60)

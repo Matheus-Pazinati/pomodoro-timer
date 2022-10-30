@@ -43,6 +43,7 @@ interface CycleContextType {
   activeCycleId: string | null
   markCurrentCycleAsFinished: () => void
   secondsPassedOnCountdown: (seconds: number) => void
+  secondsAmountPassed: number
 }
 
 export const CyclesContext = createContext({} as CycleContextType)
@@ -123,6 +124,7 @@ export function Home() {
             activeCycleId,
             markCurrentCycleAsFinished,
             secondsPassedOnCountdown,
+            secondsAmountPassed,
           }}
         >
           <FormContainer
@@ -155,7 +157,7 @@ export function Home() {
             <span>minutos.</span>
           </FormContainer>
 
-          <Countdown secondsPassed={secondsAmountPassed} />
+          <Countdown />
 
           {activeCycle ? (
             <StopCountdownButton type="button" onClick={handleInterruptCycle}>
