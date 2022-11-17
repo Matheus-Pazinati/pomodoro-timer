@@ -1,21 +1,23 @@
 import { useContext } from 'react'
-
-import { CyclesContext, Cycle, NewCycleFormSchemaProps } from '../..'
+import { CyclesContext, Cycle } from '../../../../contexts/CycleContext'
+import { useFormContext } from 'react-hook-form'
 
 import { v4 as uuidv4 } from 'uuid'
 
 import { FormContainer, ProjectInput, ProjectMinutes } from './styles'
 
-import { useFormContext } from 'react-hook-form'
+interface CycleFormProps {
+  projectName: string
+  projectMinutes: number
+}
 
 export function CycleForm() {
   const { activeCycle, secondsPassedOnCountdown, setCycleId, setNewCycle } =
     useContext(CyclesContext)
 
-  const { handleSubmit, register, reset } =
-    useFormContext<NewCycleFormSchemaProps>()
+  const { handleSubmit, register, reset } = useFormContext<CycleFormProps>()
 
-  function handleCreateNewCycle(data: NewCycleFormSchemaProps) {
+  function handleCreateNewCycle(data: CycleFormProps) {
     const newCycle: Cycle = {
       id: uuidv4(),
       task: data.projectName,
