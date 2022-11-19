@@ -1,4 +1,4 @@
-import { useState, createContext, ReactNode } from 'react'
+import { useState, createContext, ReactNode, useReducer } from 'react'
 
 export interface Cycle {
   id: string
@@ -30,22 +30,31 @@ interface CyclesContextProviderProps {
 export function CyclesContextProvider({
   children,
 }: CyclesContextProviderProps) {
-  const [cycles, setCycles] = useState<Cycle[]>([])
+  const [cycles, dispatch] = useReducer((state: Cycle[], action: any) => {
+    console.log(state)
+    console.log(action)
+
+    if (action.type === 'ADD_NEW_CYCLE') {
+      return [...state, action.payload.cycle]
+    }
+
+    return state
+  }, [])
 
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
 
   const [secondsAmountPassed, setSecondsAmountPassed] = useState(0)
 
   function markCurrentCycleAsFinished() {
-    setCycles((state) =>
-      state.map((cycle) => {
-        if (cycle.id === activeCycleId) {
-          return { ...cycle, finishedDate: new Date() }
-        } else {
-          return cycle
-        }
-      }),
-    )
+    // setCycles((state) =>
+    //   state.map((cycle) => {
+    //     if (cycle.id === activeCycleId) {
+    //       return { ...cycle, finishedDate: new Date() }
+    //     } else {
+    //       return cycle
+    //     }
+    //   }),
+    // )
   }
 
   function secondsPassedOnCountdown(seconds: number) {
@@ -57,19 +66,24 @@ export function CyclesContextProvider({
   }
 
   function setNewCycle(cycle: Cycle) {
-    setCycles((state) => [...state, cycle])
+    dispatch({
+      type: 'ADD_NEW_CYCLE',
+      payload: {
+        cycle,
+      },
+    })
   }
 
   function interruptActiveCycle() {
-    const newCycleListWithTheInterruptedCycle = cycles.map((cycle) => {
-      if (cycle.id === activeCycleId) {
-        return { ...cycle, interruptedDate: new Date() }
-      } else {
-        return cycle
-      }
-    })
-    setCycles(newCycleListWithTheInterruptedCycle)
-    setActiveCycleId(null)
+    // const newCycleListWithTheInterruptedCycle = cycles.map((cycle) => {
+    //   if (cycle.id === activeCycleId) {
+    //     return { ...cycle, interruptedDate: new Date() }
+    //   } else {
+    //     return cycle
+    //   }
+    // })
+    // setCycles(newCycleListWithTheInterruptedCycle)
+    // setActiveCycleId(null)
   }
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
