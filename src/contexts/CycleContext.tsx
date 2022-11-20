@@ -36,46 +36,42 @@ export function CyclesContextProvider({
 }: CyclesContextProviderProps) {
   const [cycleState, dispatch] = useReducer(
     (state: CycleState, action: any) => {
-      if (action.type === 'ADD_NEW_CYCLE') {
-        return {
-          ...state,
-          cycles: [...state.cycles, action.payload.cycle],
-          activeCycleId: action.payload.cycle.id,
-        }
-      }
+      switch (action.type) {
+        case 'ADD_NEW_CYCLE':
+          return {
+            ...state,
+            cycles: [...state.cycles, action.payload.cycle],
+            activeCycleId: action.payload.cycle.id,
+          }
 
-      if (action.type === 'INTERRUPT_CURRENT_CYCLE') {
-        const newCycleListWithTheInterruptedCycle = state.cycles.map(
-          (cycle) => {
-            if (cycle.id === state.activeCycleId) {
-              return { ...cycle, interruptedDate: new Date() }
-            } else {
-              return cycle
-            }
-          },
-        )
-        return {
-          ...state,
-          cycles: newCycleListWithTheInterruptedCycle,
-          activeCycleId: null,
-        }
-      }
+        case 'INTERRUPT_CURRENT_CYCLE':
+          return {
+            ...state,
+            cycles: state.cycles.map((cycle) => {
+              if (cycle.id === state.activeCycleId) {
+                return { ...cycle, interruptedDate: new Date() }
+              } else {
+                return cycle
+              }
+            }),
+            activeCycleId: null,
+          }
 
-      if (action.type === 'FINISH_CURRENT_CYCLE') {
-        return {
-          ...state,
-          cycles: state.cycles.map((cycle) => {
-            if (cycle.id === state.activeCycleId) {
-              return { ...cycle, finishedDate: new Date() }
-            } else {
-              return cycle
-            }
-          }),
-          activeCycleId: null,
-        }
+        case 'FINISH_CURRENT_CYCLE':
+          return {
+            ...state,
+            cycles: state.cycles.map((cycle) => {
+              if (cycle.id === state.activeCycleId) {
+                return { ...cycle, finishedDate: new Date() }
+              } else {
+                return cycle
+              }
+            }),
+            activeCycleId: null,
+          }
+        default:
+          return state
       }
-
-      return state
     },
     {
       cycles: [],
