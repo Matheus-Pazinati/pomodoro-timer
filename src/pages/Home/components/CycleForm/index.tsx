@@ -12,7 +12,7 @@ interface CycleFormProps {
 }
 
 export function CycleForm() {
-  const { activeCycle, secondsPassedOnCountdown, setCycleId, setNewCycle } =
+  const { activeCycle, secondsPassedOnCountdown, setNewCycle } =
     useContext(CyclesContext)
 
   const { handleSubmit, register, reset } = useFormContext<CycleFormProps>()
@@ -26,8 +26,6 @@ export function CycleForm() {
     }
 
     setNewCycle(newCycle)
-
-    setCycleId(newCycle.id)
 
     secondsPassedOnCountdown(0)
 
