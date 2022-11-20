@@ -43,6 +43,24 @@ export function CyclesContextProvider({
           activeCycleId: action.payload.cycle.id,
         }
       }
+
+      if (action.type === 'INTERRUPT_CURRENT_CYCLE') {
+        const newCycleListWithTheInterruptedCycle = state.cycles.map(
+          (cycle) => {
+            if (cycle.id === state.activeCycleId) {
+              return { ...cycle, interruptedDate: new Date() }
+            } else {
+              return cycle
+            }
+          },
+        )
+
+        return {
+          ...state,
+          cycles: newCycleListWithTheInterruptedCycle,
+          activeCycleId: null,
+        }
+      }
       return state
     },
     {
