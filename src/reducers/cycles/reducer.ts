@@ -1,3 +1,5 @@
+import { ActionTypes } from './actions'
+
 export interface Cycle {
   id: string
   task: string
@@ -7,15 +9,9 @@ export interface Cycle {
   finishedDate?: Date
 }
 
-interface CycleState {
+export interface CycleState {
   cycles: Cycle[]
   activeCycleId: string | null
-}
-
-export enum ActionTypes {
-  ADD_NEW_CYCLE = 'ADD_NEW_CYCLE',
-  INTERRUPT_CURRENT_CYCLE = 'INTERRUPT_CURRENT_CYCLE',
-  FINISH_CURRENT_CYCLE = 'FINISH_CURRENT_CYCLE',
 }
 
 export function cyclesReducer(state: CycleState, action: any) {

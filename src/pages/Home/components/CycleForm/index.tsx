@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { CyclesContext } from '../../../../contexts/CycleContext'
-import { Cycle } from '../../../../reducers/cycles'
+import { Cycle } from '../../../../reducers/cycles/reducer'
 import { useFormContext } from 'react-hook-form'
 
 import { v4 as uuidv4 } from 'uuid'
