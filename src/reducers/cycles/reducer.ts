@@ -1,5 +1,7 @@
 import { ActionTypes } from './actions'
 
+import { produce } from 'immer'
+
 export interface Cycle {
   id: string
   task: string
@@ -17,11 +19,10 @@ export interface CycleState {
 export function cyclesReducer(state: CycleState, action: any) {
   switch (action.type) {
     case ActionTypes.ADD_NEW_CYCLE:
-      return {
-        ...state,
-        cycles: [...state.cycles, action.payload.cycle],
-        activeCycleId: action.payload.cycle.id,
-      }
+      return produce(state, (draft) => {
+        draft.cycles.push(action.payload.cycle)
+        draft.activeCycleId = action.payload.cycle.id
+      })
 
     case ActionTypes.INTERRUPT_CURRENT_CYCLE:
       return {
