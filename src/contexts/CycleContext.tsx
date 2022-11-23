@@ -31,24 +31,32 @@ interface CyclesContextProviderProps {
   children: ReactNode
 }
 
+interface EmptyCycleStateProps {
+  cycles: never[]
+  activeCycleId: null
+}
+
 export function CyclesContextProvider({
   children,
 }: CyclesContextProviderProps) {
-  function getSavedCyclesFromLocalStorage() {
+  const initializerArg = {
+    cycles: [],
+    activeCycleId: null,
+  }
+
+  function getSavedCyclesFromLocalStorage(initialValue: EmptyCycleStateProps) {
     const cyclesStateJSON = localStorage.getItem(
       '@ignite-timer:cycles-state-1.0.0',
     )
     if (cyclesStateJSON) {
       return JSON.parse(cyclesStateJSON)
     }
+    return initialValue
   }
 
   const [cycleState, dispatch] = useReducer(
     cyclesReducer,
-    {
-      cycles: [],
-      activeCycleId: null,
-    },
+    initializerArg,
     getSavedCyclesFromLocalStorage,
   )
 
