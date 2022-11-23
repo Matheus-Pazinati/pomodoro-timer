@@ -1,3 +1,4 @@
+import { differenceInSeconds } from 'date-fns'
 import {
   useState,
   createContext,
@@ -56,9 +57,16 @@ export function CyclesContextProvider({
     localStorage.setItem('@ignite-timer:cycles-state-1.0.0', cycleStateJSON)
   }, [cycleState])
 
-  const [secondsAmountPassed, setSecondsAmountPassed] = useState(0)
-
   const { cycles, activeCycleId } = cycleState
+
+  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
+
+  const [secondsAmountPassed, setSecondsAmountPassed] = useState(() => {
+    if (activeCycle) {
+      return differenceInSeconds(new Date(), new Date(activeCycle.startDate))
+    }
+    return 0
+  })
 
   function secondsPassedOnCountdown(seconds: number) {
     setSecondsAmountPassed(seconds)
@@ -76,7 +84,6 @@ export function CyclesContextProvider({
     dispatch(markCurrentCycleAsFinishedAction())
   }
 
-  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
   return (
     <CyclesContext.Provider
       value={{
