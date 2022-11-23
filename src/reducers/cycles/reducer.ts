@@ -24,18 +24,29 @@ export function cyclesReducer(state: CycleState, action: any) {
         draft.activeCycleId = action.payload.cycle.id
       })
 
-    case ActionTypes.INTERRUPT_CURRENT_CYCLE:
-      return {
-        ...state,
-        cycles: state.cycles.map((cycle) => {
-          if (cycle.id === state.activeCycleId) {
-            return { ...cycle, interruptedDate: new Date() }
-          } else {
-            return cycle
-          }
-        }),
-        activeCycleId: null,
-      }
+    case ActionTypes.INTERRUPT_CURRENT_CYCLE: {
+      // return {
+      //   ...state,
+      //   cycles: state.cycles.map((cycle) => {
+      //     if (cycle.id === state.activeCycleId) {
+      //       return { ...cycle, interruptedDate: new Date() }
+      //     } else {
+      //       return cycle
+      //     }
+      //   }),
+      //   activeCycleId: null,
+      // }
+      const interruptedCycleIndex = state.cycles.findIndex((cycle) => {
+        return cycle.id === state.activeCycleId
+      })
+      return produce(state, (draft) => {
+        if (interruptedCycleIndex < 0) {
+          return state
+        }
+        draft.cycles[interruptedCycleIndex].interruptedDate = new Date()
+        draft.activeCycleId = null
+      })
+    }
 
     case ActionTypes.FINISH_CURRENT_CYCLE:
       return {
