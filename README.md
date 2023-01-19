@@ -22,7 +22,7 @@
 <br>
 <h2>📌 Funcionalidades a serem implementadas</h2>
 <ul>
-  <li>Aplicar responsividade no layout para dispositivos móveis</li>
+  <li>Aplicar responsividade no layout para dispositivos móveis - Ok ✔️</li>
   <li>Executar um som quando uma tarefa tiver sido concluída</li>
   <li>Incluir funcionalidade para pausar e retomar o tempo de um projeto</li>
 </ul>
