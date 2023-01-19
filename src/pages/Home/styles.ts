@@ -14,6 +14,10 @@ export const StyleContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 3rem;
+
+  @media (max-width: 796px) {
+    gap: 2rem;
+  }
 `
 
 const BaseCountdownButton = styled.button`
@@ -29,6 +33,10 @@ const BaseCountdownButton = styled.button`
   border: none;
   padding: 1.25rem 0;
   cursor: pointer;
+
+  @media (max-width: 796px) {
+    max-width: 300px;
+  }
 `
 
 export const StartCountdownButton = styled(BaseCountdownButton)`
