@@ -35,30 +35,35 @@ export function CycleForm() {
 
   return (
     <FormContainer id="taskForm" onSubmit={handleSubmit(handleCreateNewCycle)}>
-      <label htmlFor="projectInput">Vou trabalhar em</label>
-      <ProjectInput
-        id="projectName"
-        type="text"
-        placeholder="Dê um nome para o seu projeto"
-        list="projectSuggestions"
-        disabled={!!activeCycle}
-        {...register('projectName', { required: true })}
-      />
-      <datalist id="projectSuggestions">
-        <option value="Projeto 1" />
-        <option value="Projeto 2" />
-        <option value="Projeto 3" />
-      </datalist>
-      <label htmlFor="projectMinutes">durante</label>
-      <ProjectMinutes
-        id="projectMinutes"
-        type="number"
-        placeholder="00"
-        step={5}
-        disabled={!!activeCycle}
-        {...register('projectMinutes', { valueAsNumber: true })}
-      />
-      <span>minutos.</span>
+      <div className="TaskContainer">
+        <label htmlFor="projectInput">Vou trabalhar em</label>
+        <ProjectInput
+          id="projectName"
+          type="text"
+          placeholder="Dê um nome para o seu projeto"
+          list="projectSuggestions"
+          disabled={!!activeCycle}
+          {...register('projectName', { required: true })}
+        />
+        <datalist id="projectSuggestions">
+          <option value="Projeto 1" />
+          <option value="Projeto 2" />
+          <option value="Projeto 3" />
+        </datalist>
+      </div>
+
+      <div>
+        <label htmlFor="projectMinutes">durante</label>
+        <ProjectMinutes
+          id="projectMinutes"
+          type="number"
+          placeholder="00"
+          step={5}
+          disabled={!!activeCycle}
+          {...register('projectMinutes', { valueAsNumber: true })}
+        />
+        <span>minutos.</span>
+      </div>
     </FormContainer>
   )
 }

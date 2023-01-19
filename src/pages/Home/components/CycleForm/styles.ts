@@ -11,6 +11,19 @@ export const FormContainer = styled.form`
   font-weight: bold;
   font-size: 1.125rem;
   flex-wrap: wrap;
+
+  @media (max-width: 796px) {
+    font-size: 0.875rem;
+    flex-direction: column;
+  }
+
+  .TaskContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
 `
 
 const FormInputBase = styled.input`
@@ -21,9 +34,17 @@ const FormInputBase = styled.input`
   border: none;
   border-bottom: 2px solid ${(props) => props.theme['gray-500']};
 
+  @media (max-width: 796px) {
+    padding: 0.5rem;
+  }
+
   &::placeholder {
     color: ${(props) => props.theme['gray-500']};
     font-weight: bold;
+
+    @media (max-width: 796px) {
+      font-size: 0.75rem;
+    }
   }
 
   &:focus {
@@ -35,11 +56,19 @@ const FormInputBase = styled.input`
 export const ProjectInput = styled(FormInputBase)`
   flex: 1;
 
+  @media (max-width: 796px) {
+    flex: 0;
+  }
+
   &::-webkit-calendar-picker-indicator {
     display: none !important;
   }
 `
 
 export const ProjectMinutes = styled(FormInputBase)`
-  width: 4.5rem;
+  width: 4rem;
+
+  @media (max-width: 796px) {
+    width: 2rem;
+  }
 `
