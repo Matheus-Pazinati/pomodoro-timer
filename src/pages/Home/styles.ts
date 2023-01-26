@@ -20,6 +20,13 @@ export const StyleContainer = styled.div`
   }
 `
 
+export const ButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+`
+
 const BaseCountdownButton = styled.button`
   width: 100%;
   display: flex;
@@ -57,5 +64,21 @@ export const StopCountdownButton = styled(BaseCountdownButton)`
 
   &:not(:disabled):hover {
     background-color: ${(props) => props.theme['red-700']};
+  }
+`
+
+export const PauseCountdownButton = styled(BaseCountdownButton)`
+  background-color: ${(props) => props.theme['yellow-500']};
+
+  &:not(:disabled):hover {
+    background-color: ${(props) => props.theme['yellow-700']};
+  }
+`
+
+export const ResumeCountdownButton = styled(BaseCountdownButton)`
+  background-color: ${(props) => props.theme['blue-500']};
+
+  &:not(:disabled):hover {
+    background-color: ${(props) => props.theme['blue-700']};
   }
 `

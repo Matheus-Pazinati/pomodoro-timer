@@ -1,9 +1,12 @@
-import { HandPalm, Play } from 'phosphor-react'
+import { HandPalm, HandPointing, Play, Prohibit } from 'phosphor-react'
 import {
   HomeContainer,
   StyleContainer,
   StartCountdownButton,
   StopCountdownButton,
+  PauseCountdownButton,
+  ButtonsContainer,
+  ResumeCountdownButton,
 } from './styles'
 
 import { Countdown } from './components/Countdown'
@@ -44,6 +47,8 @@ export function Home() {
 
   const isProjectInputValid = !projectInput
 
+  const isPaused = false
+
   return (
     <HomeContainer>
       <StyleContainer>
@@ -53,10 +58,23 @@ export function Home() {
         <Countdown />
 
         {activeCycle ? (
-          <StopCountdownButton type="button" onClick={interruptActiveCycle}>
-            <HandPalm size={24} />
-            Interromper
-          </StopCountdownButton>
+          <ButtonsContainer>
+            <StopCountdownButton type="button" onClick={interruptActiveCycle}>
+              <Prohibit size={24} />
+              Interromper
+            </StopCountdownButton>
+            {isPaused ? (
+              <ResumeCountdownButton type="button">
+                <HandPointing size={24} />
+                Retomar
+              </ResumeCountdownButton>
+            ) : (
+              <PauseCountdownButton type="button">
+                <HandPalm size={24} />
+                Pausar
+              </PauseCountdownButton>
+            )}
+          </ButtonsContainer>
         ) : (
           <StartCountdownButton
             disabled={isProjectInputValid}

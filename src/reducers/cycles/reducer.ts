@@ -9,6 +9,7 @@ export interface Cycle {
   startDate: Date
   interruptedDate?: Date
   finishedDate?: Date
+  isPaused?: boolean
 }
 
 export interface CycleState {
