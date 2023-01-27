@@ -11,6 +11,7 @@ import {
   addNewCycleAction,
   interruptActiveCycleAction,
   markCurrentCycleAsFinishedAction,
+  pauseActiveCycleAction,
 } from '../reducers/cycles/actions'
 import { Cycle, cyclesReducer } from '../reducers/cycles/reducer'
 
@@ -23,6 +24,7 @@ interface CycleContextType {
   secondsPassedOnCountdown: (seconds: number) => void
   setNewCycle: (cycle: Cycle) => void
   interruptActiveCycle: () => void
+  pauseActiveCycle: () => void
 }
 
 export const CyclesContext = createContext({} as CycleContextType)
@@ -92,6 +94,10 @@ export function CyclesContextProvider({
     dispatch(markCurrentCycleAsFinishedAction())
   }
 
+  function pauseActiveCycle() {
+    dispatch(pauseActiveCycleAction())
+  }
+
   return (
     <CyclesContext.Provider
       value={{
@@ -103,6 +109,7 @@ export function CyclesContextProvider({
         secondsAmountPassed,
         setNewCycle,
         interruptActiveCycle,
+        pauseActiveCycle,
       }}
     >
       {children}

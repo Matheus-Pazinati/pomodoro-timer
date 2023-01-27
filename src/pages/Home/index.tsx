@@ -15,7 +15,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { CycleForm } from './components/CycleForm'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { CyclesContext } from '../../contexts/CycleContext'
 
 const newCycleFormValidationSchema = zod.object({
@@ -39,15 +39,21 @@ export function Home() {
     },
   })
 
-  const { activeCycle, interruptActiveCycle } = useContext(CyclesContext)
+  const { activeCycle, interruptActiveCycle, pauseActiveCycle } =
+    useContext(CyclesContext)
+
+  const [isCyclePaused, setIsCyclePaused] = useState(false)
+
+  function handlePauseActiveCycle() {
+    pauseActiveCycle()
+    setIsCyclePaused(true)
+  }
 
   const { watch } = newCycleForm
 
   const projectInput = watch('projectName')
 
   const isProjectInputValid = !projectInput
-
-  const isPaused = false
 
   return (
     <HomeContainer>
@@ -63,13 +69,16 @@ export function Home() {
               <Prohibit size={24} />
               Interromper
             </StopCountdownButton>
-            {isPaused ? (
+            {isCyclePaused ? (
               <ResumeCountdownButton type="button">
                 <HandPointing size={24} />
                 Retomar
               </ResumeCountdownButton>
             ) : (
-              <PauseCountdownButton type="button">
+              <PauseCountdownButton
+                type="button"
+                onClick={handlePauseActiveCycle}
+              >
                 <HandPalm size={24} />
                 Pausar
               </PauseCountdownButton>

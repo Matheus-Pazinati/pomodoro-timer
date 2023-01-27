@@ -34,6 +34,17 @@ export function Countdown() {
           new Date(),
           new Date(activeCycle.startDate),
         )
+
+        if (activeCycle.pausedDate) {
+          const secondsDifferenceBetweenStartAndPause = differenceInSeconds(
+            new Date(activeCycle.pausedDate),
+            new Date(activeCycle.startDate),
+          )
+          clearInterval(interval)
+          secondsPassedOnCountdown(secondsDifferenceBetweenStartAndPause)
+          return
+        }
+
         if (secondsDifference >= totalSecondsOfTaskTime) {
           markCurrentCycleAsFinished()
           secondsPassedOnCountdown(totalSecondsOfTaskTime)
