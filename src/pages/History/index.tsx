@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { formatDistanceToNow, parseISO } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
 import ptBR from 'date-fns/locale/pt-BR'
 
@@ -48,11 +48,17 @@ export function History() {
                       </ProjectStatus>
                     )}
 
-                    {!cycle.finishedDate && !cycle.interruptedDate && (
-                      <ProjectStatus statusColor="yellow">
-                        Em andamento
-                      </ProjectStatus>
+                    {cycle.isPaused && (
+                      <ProjectStatus statusColor="blue">Pausado</ProjectStatus>
                     )}
+
+                    {!cycle.finishedDate &&
+                      !cycle.interruptedDate &&
+                      !cycle.isPaused && (
+                        <ProjectStatus statusColor="yellow">
+                          Em andamento
+                        </ProjectStatus>
+                      )}
                   </td>
                 </tr>
               )

@@ -77,6 +77,7 @@ const STATUS_COLOR = {
   green: 'green-500',
   yellow: 'yellow-500',
   red: 'red-500',
+  blue: 'blue-500',
 } as const
 
 interface ProjectStatusProps {

@@ -18,6 +18,9 @@ export interface CycleState {
 }
 
 export function cyclesReducer(state: CycleState, action: any) {
+  const currentCycleIndex = state.cycles.findIndex((cycle) => {
+    return cycle.id === state.activeCycleId
+  })
   switch (action.type) {
     case ActionTypes.ADD_NEW_CYCLE:
       return produce(state, (draft) => {
@@ -26,55 +29,45 @@ export function cyclesReducer(state: CycleState, action: any) {
       })
 
     case ActionTypes.INTERRUPT_CURRENT_CYCLE: {
-      const interruptedCycleIndex = state.cycles.findIndex((cycle) => {
-        return cycle.id === state.activeCycleId
-      })
       return produce(state, (draft) => {
-        if (interruptedCycleIndex < 0) {
+        if (currentCycleIndex < 0) {
           return state
         }
-        draft.cycles[interruptedCycleIndex].interruptedDate = new Date()
+        draft.cycles[currentCycleIndex].interruptedDate = new Date()
+        draft.cycles[currentCycleIndex].isPaused = false
         draft.activeCycleId = null
       })
     }
 
     case ActionTypes.FINISH_CURRENT_CYCLE: {
-      const finishedCycleIndex = state.cycles.findIndex((cycle) => {
-        return cycle.id === state.activeCycleId
-      })
       return produce(state, (draft) => {
-        if (finishedCycleIndex < 0) {
+        if (currentCycleIndex < 0) {
           return state
         }
 
-        draft.cycles[finishedCycleIndex].finishedDate = new Date()
+        draft.cycles[currentCycleIndex].finishedDate = new Date()
+        draft.cycles[currentCycleIndex].isPaused = false
         draft.activeCycleId = null
       })
     }
 
     case ActionTypes.PAUSE_CURRENT_CYCLE: {
-      const pausedCycleIndex = state.cycles.findIndex((cycle) => {
-        return cycle.id === state.activeCycleId
-      })
       return produce(state, (draft) => {
-        if (pausedCycleIndex < 0) {
+        if (currentCycleIndex < 0) {
           return state
         }
 
-        draft.cycles[pausedCycleIndex].isPaused = true
+        draft.cycles[currentCycleIndex].isPaused = true
       })
     }
 
     case ActionTypes.RESTART_CURRENT_CYCLE: {
-      const restartedCycleIndex = state.cycles.findIndex((cycle) => {
-        return cycle.id === state.activeCycleId
-      })
       return produce(state, (draft) => {
-        if (restartedCycleIndex < 0) {
+        if (currentCycleIndex < 0) {
           return state
         }
 
-        draft.cycles[restartedCycleIndex].isPaused = false
+        draft.cycles[currentCycleIndex].isPaused = false
       })
     }
     default:
