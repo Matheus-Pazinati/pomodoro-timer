@@ -5,6 +5,7 @@ export enum ActionTypes {
   INTERRUPT_CURRENT_CYCLE = 'INTERRUPT_CURRENT_CYCLE',
   FINISH_CURRENT_CYCLE = 'FINISH_CURRENT_CYCLE',
   PAUSE_CURRENT_CYCLE = 'PAUSE_CURRENT_CYCLE',
+  RESTART_CURRENT_CYCLE = 'RESTART_CURRENT_CYCLE',
 }
 
 export function addNewCycleAction(cycle: Cycle) {
@@ -31,5 +32,11 @@ export function markCurrentCycleAsFinishedAction() {
 export function pauseActiveCycleAction() {
   return {
     type: ActionTypes.PAUSE_CURRENT_CYCLE,
+  }
+}
+
+export function restartActiveCycleAction() {
+  return {
+    type: ActionTypes.RESTART_CURRENT_CYCLE,
   }
 }

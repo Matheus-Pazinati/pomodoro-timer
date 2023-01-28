@@ -9,7 +9,7 @@ export interface Cycle {
   startDate: Date
   interruptedDate?: Date
   finishedDate?: Date
-  pausedDate?: Date
+  isPaused?: boolean
 }
 
 export interface CycleState {
@@ -61,7 +61,20 @@ export function cyclesReducer(state: CycleState, action: any) {
           return state
         }
 
-        draft.cycles[pausedCycleIndex].pausedDate = new Date()
+        draft.cycles[pausedCycleIndex].isPaused = true
+      })
+    }
+
+    case ActionTypes.RESTART_CURRENT_CYCLE: {
+      const restartedCycleIndex = state.cycles.findIndex((cycle) => {
+        return cycle.id === state.activeCycleId
+      })
+      return produce(state, (draft) => {
+        if (restartedCycleIndex < 0) {
+          return state
+        }
+
+        draft.cycles[restartedCycleIndex].isPaused = false
       })
     }
     default:
