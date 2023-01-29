@@ -1,3 +1,4 @@
+import { differenceInSeconds } from 'date-fns'
 import { useEffect, useContext } from 'react'
 import { CyclesContext } from '../../../../contexts/CycleContext'
 import { CountdownContainer, CountdownSeparator } from './styles'
@@ -9,6 +10,8 @@ export function Countdown() {
     markCurrentCycleAsFinished,
     secondsPassedOnCountdown,
     secondsAmountPassed,
+    totalSecondsAmountPassed,
+    addTotalSecondsAmountPassed,
   } = useContext(CyclesContext)
   const totalSecondsOfTaskTime = activeCycle ? activeCycle.minutes * 60 : 0
 
@@ -28,11 +31,24 @@ export function Countdown() {
     let interval: number
     if (activeCycle) {
       interval = setInterval(() => {
+        let secondsDifference: number
         if (activeCycle.isPaused) {
+          addTotalSecondsAmountPassed(secondsAmountPassed)
           clearInterval(interval)
           return
-        } else {
-          secondsPassedOnCountdown(secondsAmountPassed + 1)
+        } else if (activeCycle.restartedDate && !activeCycle.isPaused) {
+          secondsDifference = differenceInSeconds(
+            new Date(),
+            new Date(activeCycle.restartedDate),
+          )
+          secondsPassedOnCountdown(totalSecondsAmountPassed + secondsDifference)
+        } else if (!activeCycle.restartedDate && !activeCycle.isPaused) {
+          secondsDifference = differenceInSeconds(
+            new Date(),
+            activeCycle.startDate,
+          )
+          addTotalSecondsAmountPassed(0)
+          secondsPassedOnCountdown(secondsDifference)
         }
 
         if (secondsAmountPassed >= totalSecondsOfTaskTime) {
@@ -52,6 +68,8 @@ export function Countdown() {
     markCurrentCycleAsFinished,
     secondsPassedOnCountdown,
     secondsAmountPassed,
+    totalSecondsAmountPassed,
+    addTotalSecondsAmountPassed,
   ])
 
   useEffect(() => {

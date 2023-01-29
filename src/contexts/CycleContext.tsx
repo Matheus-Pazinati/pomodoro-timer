@@ -27,6 +27,8 @@ interface CycleContextType {
   interruptActiveCycle: () => void
   pauseActiveCycle: () => void
   restartActiveCycle: () => void
+  totalSecondsAmountPassed: number
+  addTotalSecondsAmountPassed: (seconds: number) => void
 }
 
 export const CyclesContext = createContext({} as CycleContextType)
@@ -80,6 +82,12 @@ export function CyclesContextProvider({
     return 0
   })
 
+  const [totalSecondsAmountPassed, setTotalSecondsAmountPassed] = useState(0)
+
+  function addTotalSecondsAmountPassed(seconds: number) {
+    setTotalSecondsAmountPassed(seconds)
+  }
+
   function secondsPassedOnCountdown(seconds: number) {
     setSecondsAmountPassed(seconds)
   }
@@ -117,6 +125,8 @@ export function CyclesContextProvider({
         interruptActiveCycle,
         pauseActiveCycle,
         restartActiveCycle,
+        totalSecondsAmountPassed,
+        addTotalSecondsAmountPassed,
       }}
     >
       {children}
